@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Ticket</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .passenger {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .add-passenger-btn, .submit-btn {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-passenger-btn:hover, .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Your Ticket</h1>
+
+        <!-- ✅ Corrected: Only One Form -->
+        <form action="{{ url_for('main.book_ticket', train_id=train.train_id) }}" method="POST">
+            <h2>Book Ticket for {{ train.train_name }}</h2>
+            <p>From: {{ train.source }} - To: {{ train.destination }}</p>
+            <p>Departure: {{ train.departure_time }} - Arrival: {{ train.arrival_time }}</p>
+            <p>Fare: ₹{{ train.fare }}</p>
+
+            <label for="departure">Departure:</label>
+            <input type="text" name="departure" required>
+
+            <label for="destination">Destination:</label>
+            <input type="text" name="destination" required>
+
+            <label for="travel_date">Travel Date:</label>
+            <input type="date" name="travel_date" required>
+
+            <label for="ticket_class">Ticket Class:</label>
+<select name="ticket_class" required>
+    <option value="AC-FIRST CLASS">AC-FIRST CLASS</option>
+    <option value="NON AC-SECOND CLASS">NON AC-SECOND CLASS</option>
+    <option value="NORMAL-THIRD CLASS">NORMAL-THIRD CLASS</option>
+</select>
+
+            <div id="passengers">
+                <div class="passenger">
+                    <label>Passenger Name:</label>
+                    <input type="text" name="passenger_name[]" required>
+
+                    <label>Age:</label>
+                    <input type="number" name="passenger_age[]" required>
+
+                    <label>Gender:</label>
+                    <select name="passenger_gender[]" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>ID Proof:</label>
+                    <input type="text" name="passenger_id_proof[]" required>
+                </div>
+            </div>
+
+            <button type="button" class="add-passenger-btn" onclick="addPassenger()">Add Another Passenger</button>
+
+            <!-- ✅ Corrected: Only One Submit Button -->
+            <button type="submit" class="submit-btn">Confirm Booking</button>
+        </form>
+    </div>
+
+    <script>
+        function addPassenger() {
+            var passengerDiv = document.createElement('div');
+            passengerDiv.className = 'passenger';
+
+            passengerDiv.innerHTML = `
+                <label>Passenger Name:</label>
+                <input type="text" name="passenger_name[]" required>
+
+                <label>Age:</label>
+                <input type="number" name="passenger_age[]" required>
+
+                <label>Gender:</label>
+                <select name="passenger_gender[]" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label>ID Proof:</label>
+                <input type="text" name="passenger_id_proof[]" required>
+            `;
+
+            document.getElementById('passengers').appendChild(passengerDiv);
+        }
+    </script>
+</body>
+</html>

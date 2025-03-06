@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="profile-card shadow-lg p-4">
+        <h2 class="text-center mb-4 text-primary">My Profile</h2>
+
+        <!-- User Details Section -->
+        <div class="user-details mb-4">
+            <h4>User Information</h4>
+            <hr>
+            <p><strong>Name:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+
+        <!-- Booking History Section -->
+        <div class="booking-history">
+            <h4>Booking History</h4>
+            <hr>
+            {% if bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Train Name</th>
+                            <th>Train Number</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Date</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Class</th>
+                            <th>Berth</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.train_name }}</td>
+                            <td>{{ booking.train_number }}</td>
+                            <td>{{ booking.source }}</td>
+                            <td>{{ booking.destination }}</td>
+                            <td>{{ booking.date_of_journey }}</td>
+                            <td>{{ booking.departure_time }}</td>
+                            <td>{{ booking.arrival_time }}</td>
+                            <td>{{ booking.seat_class }}</td>
+                            <td>{{ booking.berth_type }}</td>
+                            <td>
+                                {% if booking.status == 'Confirmed' %}
+                                    <span class="badge status-confirmed">Confirmed</span>
+                                {% elif booking.status == 'Waiting' %}
+                                    <span class="badge status-waiting">Waiting</span>
+                                {% else %}
+                                    <span class="badge status-cancelled">Cancelled</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center text-muted">No bookings found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    
+    .profile-card {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .user-details h4, .booking-history h4 {
+        color: #007bff;
+    }
+
+    .table {
+        margin-top: 15px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .table th {
+        background: #343a40;
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background: #f1f1f1;
+    }
+
+    .status-confirmed {
+        background-color: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+
+    .status-waiting {
+        background-color: #ffc107;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+
+    .status-cancelled {
+        background-color: #dc3545;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}

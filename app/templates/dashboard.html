@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Ticket Booking - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin-right: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .train-list {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .train-list th, .train-list td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .train-list th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .book-btn {
+            padding: 8px 12px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .book-btn:hover {
+            background-color: darkgreen;
+        }
+
+        .logout-btn {
+            background-color: red;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div>TRAIN TICKET BOOKING</div>
+        <div>
+            <a href="{{ url_for('main.register') }}">Home</a>
+            <a href="{{ url_for('main.seat_availability') }}">Seat Availability</a>
+            <a href="{{ url_for('main.bookings') }}">Bookings</a>
+            <a href="{{ url_for('main.cancel_ticket') }}">Cancel Ticket</a>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Welcome, {{ username }}!</h2>
+        <p>Check available trains and book your tickets.</p>
+
+        <table class="train-list">
+            <tr>
+                <th>Train Name</th>
+                <th>Train Number</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Time</th>
+                <th>Fare</th>
+                <th>Action</th>
+            </tr>
+            
+            <!-- Corrected Jinja Loop -->
+            {% for train in trains %}
+            <tr>
+                <td>{{ train.train_name }}</td>
+                <td>{{ train.train_number }}</td>
+                <td>{{ train.source }}</td>
+                <td>{{ train.destination }}</td>
+                <td>{{ train.departure_time }} - {{ train.arrival_time }}</td>
+                <td>₹{{ train.fare }}</td>
+               <td>
+               <a href="{{ url_for('main.book_ticket', train_id=train.train_id) }}">Book Now</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+     
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.pnr }}</td>
+                <td>{{ booking.train_id }}</td>
+                <td>{{ booking.departure }}</td>
+                <td>{{ booking.destination }}</td>
+                <td>{{ booking.travel_date }}</td>
+                <td>{{ booking.ticket_class }}</td>
+                <td>{{ booking.passenger_count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

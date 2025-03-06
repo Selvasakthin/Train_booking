@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Ticket</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<style>
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+/* Input Fields */
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* Button */
+button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e60000;
+}
+
+/* Flash Messages */
+.flash {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cancel Your Ticket</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="flash {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="id_proof">ID Proof:</label>
+            <input type="text" id="id_proof" name="id_proof" required>
+
+            <button type="submit">Cancel Ticket</button>
+        </form>
+    </div>
+</body>
+</html>
