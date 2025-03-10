@@ -1,4 +1,7 @@
 import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "abc123")
