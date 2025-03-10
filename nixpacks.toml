@@ -1,0 +1,2 @@
+[pkgs]
+packages = ["mariadb-connector-c", "pkg-config"]
