@@ -1,6 +1,8 @@
-from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
+import pymysql
 
-mysql = MySQL()  # Ensure MySQL is initialized in `app.py`
+pymysql.install_as_MySQLdb()
+db = SQLAlchemy()
 
 def get_train_data(train_id):
     cursor = mysql.connection.cursor()

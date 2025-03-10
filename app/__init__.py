@@ -4,23 +4,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 
+# Global instances
 db = SQLAlchemy()
-migrate=Migrate()
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Initialize extensions
+    # Initialize extensions (avoid reassigning migrate)
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)  # ✅ Fixed: Avoid redeclaring migrate
+
+    # Import models before migrations
+    with app.app_context():
+        from .models import Passenger, User  # ✅ Ensuring models are loaded
 
     # Import Blueprints
-    from .routes import main  # Ensure 'main' is defined in routes.py
+    from .routes import main  # ✅ Ensure 'main' is correctly defined in routes.py
     app.register_blueprint(main)
-
-    with app.app_context():
-        from .models import Passenger, User  # ✅ Fixed import error
-
 
     return app
