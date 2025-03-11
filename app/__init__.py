@@ -18,7 +18,7 @@ def create_app():
 
     # Import models before migrations
     with app.app_context():
-        from .models import Passenger, User  # ✅ Ensuring models are loaded
+           from .models import Passenger, User, Booking, Train, TrainSeats, BookingPassenger, UserAccounts
 
     # Import Blueprints
     from .routes import main  # ✅ Ensure 'main' is correctly defined in routes.py
