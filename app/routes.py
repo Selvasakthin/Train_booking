@@ -21,7 +21,7 @@ def get_train_data(train_id):
 
 # Generate unique PNR number
 def generate_pnr():
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    return str(random.randint(1000000000, 9999999999)) 
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
@@ -126,8 +126,11 @@ def book_ticket(train_id):
         print(f"Train ID: {train_id}, Train Name: {train.train_name}")
         print(f"Departure: {departure}, Destination: {destination}, Date: {travel_date}")
         print(f"Passengers: {passenger_names}")
+
+        pnr = generate_pnr()  # ✅ Generate a single PNR for the whole booking
         
-        # Save booking details to database
+        print(f"Generated PNR: {pnr}")  # Debugging
+
         for i in range(len(passenger_names)):
             new_booking = BookingPassenger(
                 train_id=train_id,
@@ -139,13 +142,14 @@ def book_ticket(train_id):
                 passenger_name=passenger_names[i],
                 age=passenger_ages[i],
                 gender=passenger_genders[i],
-                id_proof=passenger_id_proofs[i]
+                id_proof=passenger_id_proofs[i],
+                pnr=pnr
             )
             db.session.add(new_booking)
         
         db.session.commit()  # Commit all entries
         
-        return redirect(url_for('main.view_ticket', train_id=train_id))  # Redirect after booking confirmation
+        return redirect(url_for('main.view_ticket', train_id=train_id, pnr=pnr))  # Redirect after booking confirmation
     
     return render_template('book_ticket.html', train=train) 
 
@@ -153,16 +157,17 @@ def book_ticket(train_id):
 def view_ticket():
     try:
         conn = mysql.connector.connect(host="localhost", user="root", password="Selv@123", database="train_booking")
-        cursor = conn.cursor(dictionary=True)  # Fetch data as a dictionary
+        cursor = conn.cursor(dictionary=True)
 
-        # Get the latest ticket details (assuming ID is auto-incremented)
+        # Fetch latest ticket with correct PNR
         cursor.execute("SELECT * FROM booking_passenger ORDER BY id DESC LIMIT 1")
-        ticket = cursor.fetchone()  # Fetch only the latest booked ticket
+        ticket = cursor.fetchone()  
 
         cursor.close()
         conn.close()
 
         if ticket:
+            print("Ticket fetched:", ticket)  # Debugging
             return render_template("view_ticket.html", ticket=ticket)
         else:
             return render_template("view_ticket.html", ticket=None)

@@ -1,3 +1,0 @@
-web: python mains.py
-
-

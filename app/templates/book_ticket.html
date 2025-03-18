@@ -67,6 +67,10 @@
             <p>Departure: {{ train.departure_time }} - Arrival: {{ train.arrival_time }}</p>
             <p>Fare: ₹{{ train.fare }}</p>
 
+            <label for="pnr">PNR:</label>
+            <input type="text" name="pnr" id="pnr" readonly>
+
+
             <label for="departure">Departure:</label>
             <input type="text" name="departure" required>
 
@@ -111,6 +115,19 @@
     </div>
 
     <script>
+        function generatePNR() {
+    console.log("Generating PNR...");  // ✅ Check if function runs
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let pnr = '';
+    for (let i = 0; i < 10; i++) {
+        pnr += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    console.log("Generated PNR:", pnr);  // ✅ Log generated PNR
+    document.getElementById('pnr').value = pnr;
+}
+
+window.onload = generatePNR;
+
         function addPassenger() {
             var passengerDiv = document.createElement('div');
             passengerDiv.className = 'passenger';

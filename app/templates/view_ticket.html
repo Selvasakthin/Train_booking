@@ -57,6 +57,7 @@
         <div class="ticket-header">Train Ticket</div>
         <div class="ticket-details">  
             {% if ticket %}
+                <p><strong>PNR Number:</strong> {{ ticket.pnr if ticket.pnr else 'Not Available' }}</p>
                 <p><strong>Train Name:</strong> {{ ticket.train_name }}</p>
                 <p><strong>Departure:</strong> {{ ticket.departure }}</p>
                 <p><strong>Destination:</strong> {{ ticket.destination }}</p>

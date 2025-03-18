@@ -52,6 +52,7 @@ class BookingPassenger(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     id_proof = db.Column(db.String(20), nullable=False)
+    pnr = db.Column(db.String(10), unique=True, nullable=False)
 
   
 class Train(db.Model):
